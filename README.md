@@ -43,7 +43,7 @@ A fast, installable 3D WebGL typing game with **Solo** and **2-Player Head-to-He
 ### Steps
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/typing-master-by-sada.git
+git clone https://github.com/saamisada/typing-master-by-sada.git
 cd typing-master-by-sada
 
 # 2. Install dependencies

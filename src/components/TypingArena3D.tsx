@@ -1042,13 +1042,13 @@ export const TypingArena3D: React.FC<TypingArena3DProps> = ({
             st.nextTargetId++,
             word,
             laneX,
-            -50,
+            -38,
             speed,
             'cyber',
             maxAniso,
           );
           if (st.isPortrait) {
-            drone.group.scale.setScalar(1.12);
+            drone.group.scale.setScalar(1.16);
           }
           scene.add(drone.group);
           st.targets.push(drone);
@@ -1067,6 +1067,7 @@ export const TypingArena3D: React.FC<TypingArena3DProps> = ({
             Math.sin(elapsed * 2.5 + t.bobPhase) * 0.16;
           t.coreMesh.rotation.y += simDt * 2.2;
           t.ringMesh.rotation.z -= simDt * 1.4;
+          t.plaqueMesh.quaternion.copy(camera.quaternion);
 
           if (t.group.position.z >= 2.1) {
             const breachPos = t.group.position.clone();

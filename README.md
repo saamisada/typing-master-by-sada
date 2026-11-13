@@ -1,5 +1,7 @@
 # TYPING MASTER By Sada
 
+**Live Preview:** [https://typing-master-by-sada.vercel.app](https://typing-master-by-sada.vercel.app)
+
 A fast, installable 3D WebGL typing game with **Solo** and **2-Player Head-to-Head Friend Duel** modes, real-time WPM/accuracy telemetry, procedural Web Audio synthesis, and a persistent local leaderboard.
 
 ---
@@ -7,11 +9,11 @@ A fast, installable 3D WebGL typing game with **Solo** and **2-Player Head-to-He
 ## Features
 
 - **Two Focused Game Modes**:
-  - **Solo Run**: Practice at Easy, Normal, or Fast pacing and chase personal bests.
+  - **Solo Player**: Practice at Easy, Normal, or Fast pacing and chase personal bests.
   - **With a Friend (2-Player Duel)**: Turn-based local competitor mode. Player 1 completes a round, passes the device or keyboard to Player 2, and receives a side-by-side winner comparison across WPM, Accuracy, Score, and Max Combo.
-- **Real-Time 3D WebGL Arena**: Procedural multi-part 3D interceptor craft, scrolling grid corridor, instanced particles, dynamic FOV scaling, and crisp 3D word target plaques.
+- **Real-Time 3D WebGL Arena**: Procedural multi-part 3D interceptor craft, scrolling grid corridor, instanced particles, dynamic FOV scaling, and sharp camera-aligned 3D word plaques.
 - **Procedural Sound Engine**: Synthesized keystroke clicks, laser bursts, and impact feedback using the browser Web Audio API with zero external audio assets.
-- **Installable PWA**: Works offline with Service Worker caching and includes an in-app **Install App** button to add directly to your home screen.
+- **Installable PWA**: Works offline with Service Worker caching and includes an in-app **Install App** button to add directly to your mobile or desktop home screen.
 - **Persistent Leaderboard**: Tracks top scores across difficulty tiers in browser `localStorage`.
 
 ---
@@ -28,9 +30,9 @@ A fast, installable 3D WebGL typing game with **Solo** and **2-Player Head-to-He
 - **PWA / Offline Layer**: `vite-plugin-pwa` (Workbox service worker + Web App Manifest)
 
 ### Hardware & Target Environments
-- **Graphics**: Hardware-accelerated GPU via WebGL2, with automatic software-WebGL detection and frame-paced rendering fallback for headless or low-power environments
+- **Graphics**: Hardware-accelerated GPU via WebGL2, with automatic software-WebGL detection and frame-paced rendering fallback for low-power environments
 - **Input Devices**: Physical mechanical/laptop keyboards and touch-screen virtual keyboards (IME-safe character diffing)
-- **Displays**: Responsive `100dvh` viewport scaling for wide desktop monitors, tablets, and portrait handheld displays
+- **Displays**: Responsive `100dvh` viewport scaling for wide desktop monitors, tablets, and portrait handheld phones
 
 ---
 
@@ -64,28 +66,27 @@ npm run preview
 
 ---
 
-## Deploy on Cloudflare Pages
+## Deploy on Vercel
 
-You can publish the GitHub repository directly to Cloudflare Pages in a couple of minutes:
+Live deployment is hosted at **[https://typing-master-by-sada.vercel.app](https://typing-master-by-sada.vercel.app)**.
 
-1. Log in to the **Cloudflare Dashboard** and navigate to **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-2. Authorize GitHub and select your repository.
-3. Configure the build settings:
-   - **Project name**: `typing-master-by-sada` (or `TYPING MASTER By Sada`)
-   - **Production branch**: `main`
-   - **Framework preset**: `Vite`
-   - **Build command**: `npm run build`
-   - **Build output directory**: `dist`
-4. Click **Save and Deploy**. Cloudflare Pages will install dependencies, build the static bundle + PWA service worker into `dist/`, and publish it on `https://typing-master-by-sada.pages.dev`.
+To deploy your own fork on Vercel:
+
+1. Log in to [Vercel](https://vercel.com) and click **Add New → Project**.
+2. Import the GitHub repository (`saamisada/typing-master-by-sada`).
+3. Keep the auto-detected **Vite** framework preset:
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+4. Click **Deploy** to publish live over HTTPS with full PWA support.
 
 ---
 
 ## Using as a Reference & Contributing
 
 This codebase is open for learning, reference, and community improvements:
-- **3D Game Architecture**: Inspect `src/components/TypingArena3D.tsx`, `src/game/shipModel.ts`, and `src/game/textures.ts` for zero-GC Three.js loops, procedural geometries, and CanvasTexture UI plaques.
+- **3D Game Architecture**: Inspect `src/components/TypingArena3D.tsx`, `src/game/shipModel.ts`, and `src/game/textures.ts` for zero-GC Three.js loops, procedural geometries, and crisp billboarded CanvasTexture plaques.
 - **Audio Synthesis**: Check `src/game/audioSynth.ts` for sample-free Web Audio effects.
-- **PWA Setup**: See `vite.config.ts`, `src/hooks/usePWAInstall.ts`, and `src/components/PWAInstallButton.tsx`.
+- **PWA Setup**: See `vite.config.ts`, `src/main.tsx`, `src/hooks/usePWAInstall.ts`, and `src/components/PWAInstallButton.tsx`.
 
 ### Contributing
 1. Fork this repository.

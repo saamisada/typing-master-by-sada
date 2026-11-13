@@ -216,6 +216,7 @@ export interface WordDroneTarget {
   group: THREE.Group;
   coreMesh: THREE.Mesh;
   ringMesh: THREE.Mesh;
+  plaqueMesh: THREE.Mesh;
   plaqueMat: THREE.MeshBasicMaterial;
   plaqueCanvas: HTMLCanvasElement;
   plaqueTexture: THREE.CanvasTexture;
@@ -259,27 +260,33 @@ export function createWordDroneTarget(
   const ringMesh = new THREE.Mesh(ringGeo, ringMat);
   group.add(ringMesh);
 
-  // Dynamic word plaque floating cleanly above the drone
+  // High-DPI crisp word plaque floating cleanly above the drone
   const plaqueCanvas = document.createElement('canvas');
-  plaqueCanvas.width = 512;
-  plaqueCanvas.height = 128;
+  plaqueCanvas.width = 1024;
+  plaqueCanvas.height = 256;
   paintWordPlaque(plaqueCanvas, word, 0, false, theme);
 
   const plaqueTexture = new THREE.CanvasTexture(plaqueCanvas);
   plaqueTexture.colorSpace = THREE.SRGBColorSpace;
+  plaqueTexture.generateMipmaps = false;
+  plaqueTexture.minFilter = THREE.LinearFilter;
+  plaqueTexture.magFilter = THREE.LinearFilter;
   plaqueTexture.anisotropy = maxAnisotropy;
 
   const plaqueMat = new THREE.MeshBasicMaterial({
     map: plaqueTexture,
     transparent: true,
     depthWrite: false,
+    fog: false,
+    toneMapped: false,
     side: THREE.DoubleSide,
   });
 
-  const aspectWidth = Math.max(3.2, Math.min(5.2, word.length * 0.42 + 1.2));
-  const plaqueGeo = new THREE.PlaneGeometry(aspectWidth, 0.95);
+  const aspectWidth = Math.max(3.8, Math.min(5.8, word.length * 0.5 + 1.4));
+  const plaqueGeo = new THREE.PlaneGeometry(aspectWidth, 1.1);
   const plaqueMesh = new THREE.Mesh(plaqueGeo, plaqueMat);
-  plaqueMesh.position.set(0, 1.25, 0);
+  plaqueMesh.position.set(0, 1.38, 0);
+  plaqueMesh.renderOrder = 10;
   group.add(plaqueMesh);
 
   return {
@@ -289,6 +296,7 @@ export function createWordDroneTarget(
     group,
     coreMesh,
     ringMesh,
+    plaqueMesh,
     plaqueMat,
     plaqueCanvas,
     plaqueTexture,

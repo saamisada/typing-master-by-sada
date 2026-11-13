@@ -160,49 +160,61 @@ export function paintWordPlaque(
   const ctx = canvas.getContext('2d')!;
   const w = canvas.width;
   const h = canvas.height;
+  const scale = w / 512;
 
   ctx.clearRect(0, 0, w, h);
 
-  // Plaque background
-  const pad = 10;
-  const radius = 18;
+  // High-contrast dark plaque background (opaque enough to block tunnel clutter)
+  const pad = 10 * scale;
+  const radius = 20 * scale;
   ctx.beginPath();
   ctx.roundRect(pad, pad, w - pad * 2, h - pad * 2, radius);
-  ctx.fillStyle = isLocked ? 'rgba(15, 23, 42, 0.96)' : 'rgba(9, 13, 25, 0.90)';
+  ctx.fillStyle = isLocked ? 'rgba(9, 14, 28, 0.99)' : 'rgba(6, 9, 20, 0.97)';
   ctx.fill();
 
   // Crisp border
-  ctx.lineWidth = isLocked ? 5 : 3;
+  ctx.lineWidth = (isLocked ? 6 : 4) * scale;
   ctx.strokeStyle = isLocked ? '#34d399' : palette.accentCss;
   ctx.stroke();
 
   // Corner lock brackets when locked
   if (isLocked) {
     ctx.fillStyle = '#34d399';
-    ctx.fillRect(pad + 12, pad - 2, 36, 5);
-    ctx.fillRect(w - pad - 48, h - pad - 3, 36, 5);
+    ctx.fillRect(pad + 14 * scale, pad - 2 * scale, 40 * scale, 6 * scale);
+    ctx.fillRect(
+      w - pad - 54 * scale,
+      h - pad - 4 * scale,
+      40 * scale,
+      6 * scale,
+    );
   }
 
-  // Dynamic font size based on word length
-  const fontSize = word.length > 12 ? 40 : word.length > 8 ? 48 : 56;
-  ctx.font = `700 ${fontSize}px "JetBrains Mono", ui-monospace, monospace`;
+  // Sharp high-DPI bold typography
+  const baseFontSize = word.length > 12 ? 42 : word.length > 8 ? 50 : 60;
+  const fontSize = Math.round(baseFontSize * scale);
+  ctx.font = `800 ${fontSize}px "JetBrains Mono", ui-monospace, monospace`;
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'left';
 
   const fullWidth = ctx.measureText(word).width;
   let cursorX = (w - fullWidth) / 2;
-  const centerY = h / 2 + 2;
+  const centerY = h / 2 + 2 * scale;
+
+  ctx.lineJoin = 'round';
+  ctx.lineWidth = 6 * scale;
+  ctx.strokeStyle = '#020617';
 
   for (let i = 0; i < word.length; i++) {
     const ch = word[i];
     const chWidth = ctx.measureText(ch).width;
     if (i < typedCount) {
-      ctx.fillStyle = '#34d399'; // Typed prefix emerald
+      ctx.fillStyle = '#34d399';
     } else if (i === typedCount && isLocked) {
-      ctx.fillStyle = '#fbbf24'; // Next target character highlight
+      ctx.fillStyle = '#fbbf24';
     } else {
-      ctx.fillStyle = '#f8fafc'; // Remaining characters
+      ctx.fillStyle = '#ffffff';
     }
+    ctx.strokeText(ch, cursorX, centerY);
     ctx.fillText(ch, cursorX, centerY);
     cursorX += chWidth;
   }

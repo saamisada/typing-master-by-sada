@@ -1,0 +1,6 @@
+{
+  "name": "TypeVeloce 3D",
+  "description": "3D gamified typing trainer and enterprise skill velocity platform powered by WebGL.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

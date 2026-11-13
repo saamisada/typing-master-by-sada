@@ -1,28 +1,26 @@
 import { DifficultyMode } from '../types';
 
 const WORD_POOLS: Record<DifficultyMode, string[]> = {
-  cadet: [
-    'node', 'flux', 'grid', 'core', 'byte', 'sync', 'dash', 'beam', 'warp', 'dock',
-    'code', 'loop', 'apex', 'bolt', 'wing', 'scan', 'hull', 'link', 'gate', 'zero',
-    'fast', 'type', 'mint', 'neon', 'echo', 'zoom', 'lock', 'task', 'data', 'mesh',
-    'void', 'star', 'flow', 'view', 'unit', 'port', 'axis', 'rail', 'peak', 'chip',
-    'wave', 'disk', 'form', 'cast', 'drop', 'jump', 'lane', 'mode', 'path', 'ring',
+  easy: [
+    'star', 'fast', 'moon', 'blue', 'fire', 'wind', 'rock', 'gold', 'jump', 'play',
+    'type', 'ship', 'glow', 'wave', 'bolt', 'beam', 'dash', 'zoom', 'mint', 'neon',
+    'echo', 'hope', 'peak', 'dawn', 'sky', 'fly', 'ace', 'win', 'jet', 'sun',
+    'cool', 'loop', 'sync', 'core', 'grid', 'ring', 'gate', 'zero', 'flow', 'path',
+    'home', 'time', 'game', 'word', 'hero', 'leap', 'ring', 'drop', 'pass', 'song',
   ],
-  velocity: [
-    'velocity', 'throttle', 'spectrum', 'compiler', 'protocol', 'pipeline', 'vector',
-    'quantum', 'telemetry', 'kinetic', 'matrix', 'horizon', 'catalyst', 'manifold',
-    'altitude', 'terminal', 'sequence', 'navigate', 'reactor', 'circuit', 'modular',
-    'platform', 'rendered', 'workflow', 'snapshot', 'dynamic', 'freight', 'beacon',
-    'phantom', 'turbine', 'optical', 'payload', 'cluster', 'vertex', 'compute',
-    'command', 'dispatch', 'latency', 'horizon', 'kinetic', 'impulse', 'orbital',
+  normal: [
+    'planet', 'rocket', 'silver', 'stream', 'future', 'launch', 'bright', 'vector',
+    'shadow', 'signal', 'energy', 'galaxy', 'fusion', 'sprint', 'target', 'shield',
+    'flight', 'beacon', 'chrome', 'matrix', 'sprint', 'window', 'motion', 'impact',
+    'speedy', 'portal', 'charge', 'sparkle', 'horizon', 'flight', 'turbo', 'pilot',
+    'rhythm', 'bounce', 'glider', 'bridge', 'summit', 'cosmos', 'laser', 'pulse',
   ],
-  hyperdrive: [
-    'synchronization', 'hypervelocity', 'architecture', 'orchestration', 'accelerometer',
-    'authentication', 'microarchitecture', 'interstellar', 'transformation', 'configuration',
-    'observability', 'parallelism', 'visualization', 'optimization', 'infrastructure',
-    'deterministic', 'cryptographic', 'asynchronous', 'constellation', 'virtualization',
-    'cybernetics', 'thermodynamic', 'photogrammetry', 'decomposition', 'spectroscopy',
-    'nanostructure', 'encapsulation', 'polymorphism', 'interoperability', 'bioluminescence',
+  fast: [
+    'velocity', 'spectrum', 'hyperdrive', 'starlight', 'navigator', 'lightning',
+    'trajectory', 'interceptor', 'atmosphere', 'constellation', 'accelerator',
+    'telemetry', 'cybernetic', 'challenger', 'scoreboard', 'champion', 'afterburner',
+    'multiverse', 'supernova', 'shockwave', 'precision', 'commander', 'chronicle',
+    'momentum', 'turbulence', 'wavelength', 'hypersonic', 'reflection', 'stratosphere',
   ],
 };
 
@@ -31,7 +29,6 @@ export function pickWord(difficulty: DifficultyMode, activeWords: string[]): str
   const usedFirstChars = new Set(activeWords.map((w) => w[0]?.toLowerCase()));
   const usedWords = new Set(activeWords);
 
-  // Prefer words with unique starting character and not currently on screen
   const distinctStart = pool.filter(
     (w) => !usedWords.has(w) && !usedFirstChars.has(w[0].toLowerCase()),
   );
@@ -49,32 +46,35 @@ export function pickWord(difficulty: DifficultyMode, activeWords: string[]): str
 
 export function getDifficultyConfig(difficulty: DifficultyMode) {
   switch (difficulty) {
-    case 'cadet':
+    case 'easy':
       return {
-        label: 'Cadet',
-        baseSpeed: 4.8,
-        speedRamp: 0.35,
-        spawnInterval: 2.3,
+        label: 'Easy',
+        baseSpeed: 3.1,
+        speedRamp: 0.22,
+        spawnInterval: 2.6,
+        maxConcurrent: 3,
+        targetWords: 12,
+        maxShield: 5,
+      };
+    case 'normal':
+      return {
+        label: 'Normal',
+        baseSpeed: 4.5,
+        speedRamp: 0.34,
+        spawnInterval: 2.1,
         maxConcurrent: 4,
-        targetWords: 18,
+        targetWords: 16,
+        maxShield: 4,
       };
-    case 'velocity':
+    case 'fast':
       return {
-        label: 'Velocity',
-        baseSpeed: 6.4,
-        speedRamp: 0.48,
-        spawnInterval: 1.85,
+        label: 'Fast',
+        baseSpeed: 5.9,
+        speedRamp: 0.45,
+        spawnInterval: 1.75,
         maxConcurrent: 5,
-        targetWords: 24,
-      };
-    case 'hyperdrive':
-      return {
-        label: 'Hyperdrive',
-        baseSpeed: 7.8,
-        speedRamp: 0.62,
-        spawnInterval: 1.65,
-        maxConcurrent: 6,
-        targetWords: 30,
+        targetWords: 20,
+        maxShield: 3,
       };
   }
 }
